@@ -3,14 +3,16 @@ const express = require('express');
 const router = express.Router();
 
 const Viaje = require('../models/Viajes')
-
+const Testimonial = require('../models/Testimoniales')
 
 module.exports = function(){
 
     //definimos las rutas
     router.get('/', (req, res) => {
         //Usamos el metodo render cuando tengamos vistas!!!!
-        res.render('index')
+        res.render('index',{
+            clase: 'home'
+        });
     
     
     });
@@ -51,13 +53,15 @@ module.exports = function(){
 
 
 router.get('/testimoniales', (req, res) => {
-
-    res.render('testimoniales', {
+    Testimonial.findAll()
+    .then( testimoniales =>    res.render('testimoniales', {
         //aca le estamos pasando la variable SOLO a la vista nosotros
         //gracias al metodo render
-        pagina:'Testimoniales'
+        pagina:'Testimoniales',
+        testimoniales: testimoniales
         
-});
+    }));
+
 });
 
 
@@ -93,6 +97,12 @@ router.get('/testimoniales', (req, res) => {
             })
         }else{
             //almacenar en la bd
+            Testimonial.create({
+                nombre,
+                correo,
+                mensaje
+            }).then(testimonial => {res.redirect('/testimoniales')})
+            .catch(error => console.log(error))
         }
 
     });

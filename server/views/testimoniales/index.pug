@@ -6,6 +6,28 @@ block contenido
 
         .row
             .col-md-12
+                blockquote.text-center Las experiencias de nuestros clientes
+                .row.testimoniales
+                    each testimonial in testimoniales
+                        .col-md-6.col-lg-4.mb-4
+                            .card
+                                .card-body
+                                    h2 Testimonio
+                                    blockquote.blockquote
+                                        pb.mb-0
+                                            | #{testimonial.mensaje}   
+                                    footer.blockquote-footer
+                                        | #{testimonial.nombre}
+
+
+            .col-md-12
+
+                h2.text-center Agrega un Testimonial
+
+                if(errores)
+                    each error in errores
+                        .alert.alert-danger.text-center=error.mensaje
+                
 
                 .row.justify-content-center
 
@@ -23,5 +45,5 @@ block contenido
                             .form-group
 
                                 label(for="mensaje") Mensaje 
-                                textarea#mensaje(name="mensaje", rows="3", placeholder="Tu mensaje", class="form-control") mensaje
+                                textarea#mensaje(class="form-control", name="mensaje", rows="3", placeholder="Tu mensaje") mensaje
                             input.btn.mb-5.btn-success.btn-block(type="submit", value="Agregar testimonio")
