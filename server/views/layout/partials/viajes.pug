@@ -1,0 +1,15 @@
+.row.proximos-viajes
+    each viaje in viajes
+        .col-md-6.col-lg-4.mb-4
+            .card
+                img.img-fluid(src=`img/destinos_${viaje.imagen}.jpg`, alt="")
+                .card-body
+                    h2=viaje.titulo
+                    p
+                        i.fas.fa-calendar-alt
+                        |Salida: #{viaje.fecha_ida} - Regreso: #{viaje.fecha_vuelta}
+                    p
+                        i.fas.fa-dollar-sign
+                        b Precio: $#{viaje.precio}
+                    p= viaje.descripcion.substr(0,100)    
+                    a(href=`viajes/${viaje.id}`, class="btn btn-success btn-block") Mas informacion...    

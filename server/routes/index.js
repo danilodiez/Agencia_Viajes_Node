@@ -2,110 +2,31 @@ const express = require('express');
 //con el metodo Router vamos a definir las rutas
 const router = express.Router();
 
-const Viaje = require('../models/Viajes')
-const Testimonial = require('../models/Testimoniales')
+const Viaje = require('../models/Viajes');
+const Testimonial = require('../models/Testimoniales');
+const homePageController = require('../controllers/homeController');
+const nosotrosController = require('../controllers/nosotrosController');
+const viajeController = require('../controllers/viajesController');
+const testimonialesController = require('../controllers/testimonialesController');
+
 
 module.exports = function(){
 
     //definimos las rutas
-    router.get('/', (req, res) => {
-        //Usamos el metodo render cuando tengamos vistas!!!!
-        res.render('index',{
-            clase: 'home'
-        });
-    
-    
-    });
-    router.get('/nosotros', (req, res) => {
+    router.get('/', homePageController.infoHome);
+    router.get('/nosotros', nosotrosController.infoNosotros);
 
-        res.render('nosotros', {
-            //aca le estamos pasando la variable SOLO a la vista nosotros
-            //gracias al metodo render
-            pagina:'Sobre nosotros'
-            
-    });
-});
-
-    router.get('/viajes', (req, res) => {
-
-        //Aca controlamos nuestra bd
-        Viaje.findAll()
-        .then(viajes => res.render('viajes', {
-
-            pagina:'Proximos viajes',
-            viajes: viajes
-        }))
-        .catch(error=>console.log(error))
-
-    });
+    router.get('/viajes', viajeController.infoViaje);
 
 
-    router.get('/viajes/:id', (req, res) => {
-        //con esto podemos leer la url donde nos encontremos
-        Viaje.findByPk(req.params.id)
-        .then(viaje => res.render('viaje',{
-
-            viaje
-        }))
-        .catch(error => console.log(error))
-    
-});
+    router.get('/viajes/:id', viajeController.infoURL);
 
 
-router.get('/testimoniales', (req, res) => {
-    Testimonial.findAll()
-    .then( testimoniales =>    res.render('testimoniales', {
-        //aca le estamos pasando la variable SOLO a la vista nosotros
-        //gracias al metodo render
-        pagina:'Testimoniales',
-        testimoniales: testimoniales
-        
-    }));
-
-});
+    router.get('/testimoniales', testimonialesController.infoTestimoniales);
 
 
-//Para mandar datos a la web usamos post
-//cuando se llena el formulario
-    router.post('/testimoniales',(req,res)=>{
-        //validar que todos los campos esten completos
-        let {nombre, correo, mensaje} = req.body;
 
-        let errores =[];
-        if(!nombre){
-
-            errores.push({'mensaje': 'Agrega tu nombre'})
-        }
-        if(!correo){
-
-            errores.push({'mensaje': 'Agrega tu correo'})
-        }
-        if(!mensaje){
-
-            errores.push({'mensaje': 'Agrega tu mensaje'})
-        }
-
-        // revisar por errores
-        if(errores.length >0){
-            //muestra la vista por errores
-            res.render('testimoniales', {
-                errores,
-                nombre,
-                correo,
-                mensaje
-
-            })
-        }else{
-            //almacenar en la bd
-            Testimonial.create({
-                nombre,
-                correo,
-                mensaje
-            }).then(testimonial => {res.redirect('/testimoniales')})
-            .catch(error => console.log(error))
-        }
-
-    });
+    router.post('/testimoniales', testimonialesController.agregarTestimonial);
 
     //mandamos las rutas para el index.js
     return router;

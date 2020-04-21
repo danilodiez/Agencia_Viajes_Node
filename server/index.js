@@ -3,7 +3,7 @@
 const express = require('express');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
-
+require('dotenv').config({ path: 'variables.env'})
 const configs = require('./config');
 
 /*
@@ -21,7 +21,7 @@ const path = require('path');
 
 //Configurar express
 const app = express();
-const port = 3000;
+
 
 //Habilitamos pug que es un Template Engine
 app.set('view engine', 'pug');
@@ -40,14 +40,15 @@ const config = configs[app.get('env')];
 app.locals.titulo = config.nombreSitio;
 
 //Muestra el anio actual
-//el next es
 app.use( (req, res, next)=>{
     //crear una nueva fecha
     const fecha = new Date();
     //las variables locals son para que NODE pasen entre distintos archivos
     res.locals.fechaActual = fecha.getFullYear();
+    //esto retorna lo que tengamos en la url
+    res.locals.ruta = req.path;
     
-    
+    //next quiere decir que voy a hacer todo esto y despues puedo seguir con el codigo
     return next();
 
 
@@ -60,5 +61,11 @@ app.use(bodyParser.urlencoded({extended: true}))
 //El .use lee cualquier verbo HTTP
 app.use('/',routes())
 
+//Puerto y host para la app
 
-app.listen(port)
+const host = process.env.HOST || '0.0.0.0'
+const port = process.env.PORT || 3000
+
+app.listen(port, host), () =>{
+    console.log('El servidor esta funcionando')
+}
