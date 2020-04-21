@@ -1,0 +1,27 @@
+extends ../layout/index 
+block contenido
+    main.container.mt-5
+        h1.text-center.mb-5= pagina
+
+
+        .row
+            .col-md-12
+
+                .row.justify-content-center
+
+                    .col-md-8
+                        form
+
+                        .form-group
+
+                            label(for="nombre") Nombre 
+                            input(id="nombre", type="text", class="form-control", placeholder="Tu nombre", name="nombre")
+                        .form-group
+
+                            label(for="correo") Correo electronico 
+                            input(id="correo", type="email", class="form-control", placeholder="Tu correo electronico", name="correo")
+                        .form-group
+
+                            label(for="mensaje") Mensaje 
+                            textarea#mensaje(name="mensaje", rows="3", placeholder="Tu mensaje", class="form-control")
+                        input.btn.mb-5.btn-success.btn-block(type="submit", value="Agregar testimonio")
