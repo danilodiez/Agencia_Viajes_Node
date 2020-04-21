@@ -2,7 +2,7 @@
 //Esta es una version vieja de importar y exportar MODULOS
 const express = require('express');
 const routes = require('./routes');
-
+const bodyParser = require('body-parser');
 
 const configs = require('./config');
 
@@ -53,7 +53,8 @@ app.use( (req, res, next)=>{
 
 
 })
-
+//Ejecutamos el body parser
+app.use(bodyParser.urlencoded({extended: true}))
 
 //Cargar las rutas
 //El .use lee cualquier verbo HTTP

@@ -61,7 +61,41 @@ router.get('/testimoniales', (req, res) => {
 });
 
 
+//Para mandar datos a la web usamos post
+//cuando se llena el formulario
+    router.post('/testimoniales',(req,res)=>{
+        //validar que todos los campos esten completos
+        let {nombre, correo, mensaje} = req.body;
 
+        let errores =[];
+        if(!nombre){
+
+            errores.push({'mensaje': 'Agrega tu nombre'})
+        }
+        if(!correo){
+
+            errores.push({'mensaje': 'Agrega tu correo'})
+        }
+        if(!mensaje){
+
+            errores.push({'mensaje': 'Agrega tu mensaje'})
+        }
+
+        // revisar por errores
+        if(errores.length >0){
+            //muestra la vista por errores
+            res.render('testimoniales', {
+                errores,
+                nombre,
+                correo,
+                mensaje
+
+            })
+        }else{
+            //almacenar en la bd
+        }
+
+    });
 
     //mandamos las rutas para el index.js
     return router;

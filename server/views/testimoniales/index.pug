@@ -10,18 +10,18 @@ block contenido
                 .row.justify-content-center
 
                     .col-md-8
-                        form
+                        form(action="/testimoniales", method="POST")
 
-                        .form-group
+                            .form-group
 
-                            label(for="nombre") Nombre 
-                            input(id="nombre", type="text", class="form-control", placeholder="Tu nombre", name="nombre")
-                        .form-group
+                                label(for="nombre") Nombre 
+                                input(id="nombre", type="text", class="form-control", placeholder="Tu nombre", name="nombre", value=nombre)
+                            .form-group
 
-                            label(for="correo") Correo electronico 
-                            input(id="correo", type="email", class="form-control", placeholder="Tu correo electronico", name="correo")
-                        .form-group
+                                label(for="correo") Correo electronico 
+                                input(id="correo", type="email", class="form-control", placeholder="Tu correo electronico", name="correo", value=correo)
+                            .form-group
 
-                            label(for="mensaje") Mensaje 
-                            textarea#mensaje(name="mensaje", rows="3", placeholder="Tu mensaje", class="form-control")
-                        input.btn.mb-5.btn-success.btn-block(type="submit", value="Agregar testimonio")
+                                label(for="mensaje") Mensaje 
+                                textarea#mensaje(name="mensaje", rows="3", placeholder="Tu mensaje", class="form-control") mensaje
+                            input.btn.mb-5.btn-success.btn-block(type="submit", value="Agregar testimonio")
